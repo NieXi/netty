@@ -123,7 +123,7 @@ public class NioEventLoopGroup extends MultithreadEventLoopGroup {
 
     @Override
     protected EventLoop newChild(Executor executor, Object... args) throws Exception {
-        return new NioEventLoop(this, executor, (SelectorProvider) args[0],
+        return new NioEventLoop(this, executor, (SelectorProvider) args[0],// 创建 NioEventLoop
             ((SelectStrategyFactory) args[1]).newSelectStrategy(), (RejectedExecutionHandler) args[2]);
     }
 }

@@ -92,7 +92,7 @@ public class DefaultThreadFactory implements ThreadFactory {
                     "priority: " + priority + " (expected: Thread.MIN_PRIORITY <= priority <= Thread.MAX_PRIORITY)");
         }
 
-        prefix = poolName + '-' + poolId.incrementAndGet() + '-';
+        prefix = poolName + '-' + poolId.incrementAndGet() + '-';// 线程命名规则
         this.daemon = daemon;
         this.priority = priority;
         this.threadGroup = threadGroup;

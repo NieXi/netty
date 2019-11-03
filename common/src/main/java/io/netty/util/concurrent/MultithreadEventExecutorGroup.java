@@ -55,7 +55,7 @@ public abstract class MultithreadEventExecutorGroup extends AbstractEventExecuto
      * @param args              arguments which will passed to each {@link #newChild(Executor, Object...)} call
      */
     protected MultithreadEventExecutorGroup(int nThreads, Executor executor, Object... args) {
-        this(nThreads, executor, DefaultEventExecutorChooserFactory.INSTANCE, args);
+        this(nThreads, executor, DefaultEventExecutorChooserFactory.INSTANCE, args);// chooser 用来选择线程
     }
 
     /**
@@ -73,15 +73,15 @@ public abstract class MultithreadEventExecutorGroup extends AbstractEventExecuto
         }
 
         if (executor == null) {
-            executor = new ThreadPerTaskExecutor(newDefaultThreadFactory());
+            executor = new ThreadPerTaskExecutor(newDefaultThreadFactory());//  默认线程工厂， executor 用来创建并启动带任务(Runnable)的线程
         }
 
-        children = new EventExecutor[nThreads];
+        children = new EventExecutor[nThreads];// 线程数组
 
         for (int i = 0; i < nThreads; i ++) {
             boolean success = false;
             try {
-                children[i] = newChild(executor, args);
+                children[i] = newChild(executor, args);// 关注 io.netty.channel.nio.NioEventLoopGroup.newChild 实现
                 success = true;
             } catch (Exception e) {
                 // TODO: Think about if this is a good exception type
@@ -108,7 +108,7 @@ public abstract class MultithreadEventExecutorGroup extends AbstractEventExecuto
             }
         }
 
-        chooser = chooserFactory.newChooser(children);
+        chooser = chooserFactory.newChooser(children); // 创建 chooser
 
         final FutureListener<Object> terminationListener = new FutureListener<Object>() {
             @Override
